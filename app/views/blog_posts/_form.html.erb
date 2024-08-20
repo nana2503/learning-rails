@@ -1,0 +1,29 @@
+<%= form_with model: @blog_post, class: "flex gap-y-2 flex-col w-fit" do |f|%>
+    <div class="flex gap-2 flex-col">
+        <div class="min-w-[50px]">
+            <%= f.label :title %>
+        </div>
+        <div>
+            <%= f.text_field :title, class: "w-[300px]"%>
+        </div>
+        <% if @blog_post.errors[:title].any? %>
+            <div class="text-red-500">
+                <%= @blog_post.errors[:title].first %>
+            </div>
+        <% end %>
+    </div>
+    <div class="flex gap-2 flex-col">
+        <div class="min-w-[50px]">
+            <%= f.label :body %>
+        </div>
+        <div>
+            <%= f.text_area :body, class: "w-[300px]"%>
+        </div>
+        <div>
+            <div class="text-red-500">
+                <%= @blog_post.errors[:body].first %>
+            </div>
+        </div>
+    </div>
+    <%= f.submit class: "p-3 bg-blue-300 hover:bg-blue-500 transition-all rounded-lg" %>
+<% end %>

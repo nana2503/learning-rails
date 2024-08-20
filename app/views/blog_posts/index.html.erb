@@ -1,0 +1,39 @@
+<div class="flex items-center justify-between px-4">
+    <div class="left flex gap-2 items-center">
+        <div class="logo text-3xl text-blue-300">Blogs for life</div>
+    </div>
+    <div class="right flex gap-2">
+        <% if user_signed_in? %>
+            <div class="p-3 bg-green-300 w-fit rounded-lg transition-all text-white mt-2 hover:bg-green-500">
+                <%= link_to "Create a new blog", new_blog_post_path %>
+            </div>
+            <div class="p-3 bg-blue-300 w-fit rounded-lg transition-all text-white mt-2 hover:bg-blue-500">
+                <%= link_to "Profile", edit_user_registration_path %>
+            </div>
+            <div class="p-3 bg-red-300 w-fit rounded-lg transition-all text-white mt-2 hover:bg-red-500">
+                <%= button_to "Logout", destroy_user_session_path, method: :delete %>
+            </div>
+        <% else %>
+            <div class="p-3 bg-blue-300 w-fit rounded-lg transition-all text-white mt-2 hover:bg-blue-500">
+                <%= link_to "Login", new_user_session_path %>
+            </div>
+        <% end %>
+    </div>
+</div>
+
+<div>
+    <h1>Blog list today</h1>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+        <% @blog_list.each do |item|%>
+            <div class="p-3 border-[1px] border-black rounded-lg hover:bg-red-300 transition-all">
+                <h1>Title: <%= item.title %></h1>
+                <p>
+                    Content: <%= item.body %>
+                </p>
+                <%= link_to "Detail", blog_post_path(item.id) %>
+                <%= link_to "Delete this blog", blog_post_path(item.id), data: {turbo_method: :delete}%>
+                <%= link_to "Edit this blog", edit_blog_post_path(item.id) %>
+            </div>
+        <% end %>
+    </div>
+</div>
