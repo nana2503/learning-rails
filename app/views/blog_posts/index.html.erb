@@ -23,17 +23,23 @@
 
 <div>
     <h1>Blog list today</h1>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
-        <% @blog_list.each do |item|%>
+    <div>
+    <% @blog_list.each do |status, blog_posts|%>
+        <span class=""><%= status %></span>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+            <% blog_posts.each do |item| %>
             <div class="p-3 border-[1px] border-black rounded-lg hover:bg-red-300 transition-all">
                 <h1>Title: <%= item.title %></h1>
                 <p>
                     Content: <%= item.body %>
                 </p>
+                <p> Published at: <%= item.published_at %> </p>
                 <%= link_to "Detail", blog_post_path(item.id) %>
                 <%= link_to "Delete this blog", blog_post_path(item.id), data: {turbo_method: :delete}%>
                 <%= link_to "Edit this blog", edit_blog_post_path(item.id) %>
             </div>
         <% end %>
+        </div>
+    <% end %>
     </div>
 </div>

@@ -7,6 +7,4 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
-10.times do 
-  BlogPost.create(title: "Test post", body: "Hi, im just a test blog")
-end
+BlogPost.where(published_at: nil).destroy_all

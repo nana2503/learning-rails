@@ -2,7 +2,11 @@ class BlogPostsController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
   before_action :find_by_id, except: [:index, :new, :create] 
   def index
-    @blog_list = BlogPost.all
+    @blog_list = user_signed_in? ? {
+      draft: BlogPost.draft,
+      published: BlogPost.published,
+      scheduled: BlogPost.scheduled
+    } : BlogPost.published.sorted
   end
   def show
   end
@@ -35,11 +39,15 @@ class BlogPostsController < ApplicationController
   end
   private 
   def blog_post_params
-    params.require(:blog_post).permit(:title, :body)
+    params.require(:blog_post).permit(
+      :title, 
+      :body, 
+      :published_at
+    )
   end
   
   def find_by_id
-    @blog_post = BlogPost.find(params[:id])
+    @blog_post = user_signed_in? ? BlogPost.find(params[:id]) : BlogPost.published.find(params[:id])
   rescue ActiveRecord::RecordNotFound #handle record not found
     redirect_to root_path
   end
